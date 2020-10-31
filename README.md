@@ -1,6 +1,8 @@
 # market-api
 A classified market API build using Django Rest Framework
 
+![Screenshot from 2020-10-31 19-44-42](https://user-images.githubusercontent.com/43197293/97781202-d6182500-1bb1-11eb-8e4d-1927199670c6.png)
+
 ## How to run locally
 
 - Clone this repository
