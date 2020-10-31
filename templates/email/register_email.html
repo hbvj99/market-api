@@ -1,0 +1,12 @@
+{% autoescape off %}
+Hi {{ user }},
+
+Please click on the link to confirm your registration,
+{#    http://{{ domain }}{% url 'register_user' uidb64=uid token=token %}#}
+http://{{ domain }}/register/{{ uid }}/{{ token }}
+
+If you didn't made this request, you can simply ignore this email.
+
+Sincerely,
+The Market API Team,
+{% endautoescape %}

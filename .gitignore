@@ -1,0 +1,25 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media
+
+# Installer logs
+pip-log.txt
+
+# Environments
+.env
+.env.py
+.venv
+env*
+env/
+venv/
+ENV/
+config/settings/env.py # Ignore env.py file
+
+# PyCharm
+.idea/*
