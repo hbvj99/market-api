@@ -2,10 +2,11 @@
 Hi {{ user }},
 
 Please click on the link to confirm your registration,
-{#    http://{{ domain }}{% url 'register_user' uidb64=uid token=token %}#}
-http://{{ domain }}/register/{{ uid }}/{{ token }}
+http://{{ domain }}/api/v1/users/verify-email/?uid={{ uid }}&token={{ token }}
 
 If you didn't made this request, you can simply ignore this email.
+
+Note this link will expires in 5 days.
 
 Sincerely,
 The Market API Team,
