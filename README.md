@@ -49,3 +49,5 @@ Run the commands below in a order to create migrations.
 
 ## API
 Its build on Django REST framework 3. API docs is generated with Swagger and ```drf-yasg```.
+
+If you want to test the API, import all endpoints in [Postman](https://www.postman.com/) using this [link](https://www.getpostman.com/collections/5aa2e91d985dd9ffa6bd).
