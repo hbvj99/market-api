@@ -15,11 +15,10 @@ pip-log.txt
 .env
 .env.py
 .venv
-env*
 env/
 venv/
 ENV/
-config/settings/env.py # Ignore env.py file
+config/settings/env.py
 
 # PyCharm
 .idea/*
