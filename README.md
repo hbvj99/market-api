@@ -44,7 +44,7 @@ Run the commands below in a order to create migrations.
 
 ### Backup/Restore data
 
-- ```python manage.py dumpdata > backupdb.jspn```
+- ```python manage.py dumpdata > backupdb.json```
 - ```python manage.py loaddata backupdb.json```
 
 ## API
