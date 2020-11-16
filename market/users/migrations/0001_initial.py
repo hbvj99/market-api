@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.utils.timezone
-import market.commons.file_to_uuid_name
+import market.commons.file_upload
 
 
 class Migration(migrations.Migration):
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
                 ('email', models.EmailField(max_length=254, unique=True, verbose_name='email address')),
                 ('bio', models.CharField(blank=True, max_length=120, verbose_name='bio')),
-                ('image', models.ImageField(blank=True, null=True, upload_to=market.commons.file_to_uuid_name.get_user_profile_upload_path, verbose_name='image')),
+                ('image', models.ImageField(blank=True, null=True, upload_to=market.commons.file_upload.get_user_profile_upload_path, verbose_name='image')),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
             ],

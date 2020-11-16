@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from ...commons.file_to_uuid_name import get_user_profile_upload_path
+from ...commons.file_upload import get_user_profile_upload_path, validate_image_extension_size
 from ...commons.image_thumbnail_resize import resize_image
 
 
@@ -49,8 +49,9 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if self.image:
-            size = 500, 500
-            quality = 75
-            upload_to = get_user_profile_upload_path
-            self.image = resize_image(self.image, size, quality, upload_to)
+            extension = self.image.path.split('.')[-1]
+            self.img = validate_image_extension_size(self.image, extension=extension,
+                                                     supported_extension=['png', 'jpg', 'jpeg'],
+                                                     max_size_mb=15)
+            self.image = resize_image(self.image, size=(500, 500), quality=75, upload_to=get_user_profile_upload_path)
         super().save(*args, **kwargs)
