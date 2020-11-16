@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.text import slugify
 
+from ...commons.file_upload import get_upload_path, validate_file_extension_size
 from ...commons.image_thumbnail_resize import resize_image
 from ...commons.models import BaseModel
 from ...products.models.category import Category
@@ -17,7 +18,7 @@ class Product(BaseModel):
     title = models.CharField(max_length=130, blank=False)
     slug = models.SlugField(unique=True, null=True, blank=True, editable=False)
     description = models.TextField(blank=False, max_length=1500, default='')
-    image = models.ImageField(upload_to='images/product/%Y/%m/%d/', null=True, blank=True)
+    image = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField(max_length=70, blank=True)
     votes = models.ManyToManyField(User, related_name='product_votes', blank=True, through="ProductVotes",
@@ -44,10 +45,11 @@ class Product(BaseModel):
         if not self.slug:
             self.slug = self._get_unique_slug()
         if self.image:
-            size = 1080, 960
-            quality = 75
-            upload_to = 'images/product/%Y/%m/%d/'
-            self.image = resize_image(self.image, size, quality, upload_to)
+            extension = self.image.path.split('.')[-1]
+            self.img = validate_file_extension_size(self.image, extension=extension,
+                                                    supported_extension=['png', 'jpg', 'jpeg'],
+                                                    max_size_mb=12)
+            self.image = resize_image(self.image, size=(1080, 960), quality=75, upload_to=get_upload_path)
         super().save(*args, **kwargs)
 
     def get_tags(self):
