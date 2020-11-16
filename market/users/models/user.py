@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from ...commons.file_upload import get_user_profile_upload_path, validate_image_extension_size
+from ...commons.file_upload import get_upload_path, validate_file_extension_size
 from ...commons.image_thumbnail_resize import resize_image
 
 
@@ -37,7 +37,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
     bio = models.CharField(_('bio'), max_length=120, blank=True)
-    image = models.ImageField(_('image'), blank=True, null=True, upload_to=get_user_profile_upload_path)
+    image = models.ImageField(_('image'), blank=True, null=True, upload_to=get_upload_path)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -50,8 +50,8 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if self.image:
             extension = self.image.path.split('.')[-1]
-            self.img = validate_image_extension_size(self.image, extension=extension,
-                                                     supported_extension=['png', 'jpg', 'jpeg'],
-                                                     max_size_mb=15)
-            self.image = resize_image(self.image, size=(500, 500), quality=75, upload_to=get_user_profile_upload_path)
+            self.img = validate_file_extension_size(self.image, extension=extension,
+                                                    supported_extension=['png', 'jpg', 'jpeg'],
+                                                    max_size_mb=15)
+            self.image = resize_image(self.image, size=(500, 500), quality=75, upload_to=get_upload_path)
         super().save(*args, **kwargs)
