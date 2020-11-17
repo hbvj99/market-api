@@ -1,10 +1,15 @@
 import os
 import uuid
+from datetime import date
 
 from rest_framework import exceptions
 
-user_image_path = "user/image/"
+user_image_path = 'user/image/'
 product_image_path = 'products/image/'
+other_image = 'others/'
+
+today = date.today()
+today_path = today.strftime('%Y/%m/%d')
 
 
 def get_upload_path(_, filename):
@@ -16,7 +21,10 @@ def get_upload_path(_, filename):
         path = product_image_path
     elif isinstance(_, User):
         path = user_image_path
-    return os.path.join(path, filename)
+    else:
+        path = other_image
+    final_path = os.path.join(path + today_path, filename)
+    return final_path
 
 
 def validate_file_extension_size(file, extension, supported_extension, max_size_mb, *args, **kwargs):
