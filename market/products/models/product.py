@@ -46,10 +46,10 @@ class Product(BaseModel):
             self.slug = self._get_unique_slug()
         if self.image:
             extension = self.image.path.split('.')[-1]
-            self.img = validate_file_extension_size(self.image, extension=extension,
-                                                    supported_extension=['png', 'jpg', 'jpeg'],
-                                                    max_size_mb=12)
-            self.image = resize_image(self.image, size=(1080, 960), quality=75, upload_to=get_upload_path)
+            validate_file_extension_size(self.image, extension=extension,
+                                         supported_extension=['png', 'jpg', 'jpeg'],
+                                         max_size_mb=12)
+            resize_image(self.image, size=(1080, 960), quality=75, upload_to=get_upload_path)
         super().save(*args, **kwargs)
 
     def get_tags(self):

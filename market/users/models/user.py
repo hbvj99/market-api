@@ -50,8 +50,8 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         if self.image:
             extension = self.image.path.split('.')[-1]
-            self.img = validate_file_extension_size(self.image, extension=extension,
-                                                    supported_extension=['png', 'jpg', 'jpeg'],
-                                                    max_size_mb=15)
-            self.image = resize_image(self.image, size=(500, 500), quality=75, upload_to=get_upload_path)
+            validate_file_extension_size(self.image, extension=extension,
+                                         supported_extension=['png', 'jpg', 'jpeg'],
+                                         max_size_mb=15)
+            resize_image(self.image, size=(500, 500), quality=75, upload_to=get_upload_path)
         super().save(*args, **kwargs)
