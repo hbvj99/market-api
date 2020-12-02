@@ -45,7 +45,7 @@ class Product(BaseModel):
         if not self.slug:
             self.slug = self._get_unique_slug()
         if self.image:
-            extension = str(self.image).split('.')[-1]
+            extension = self.image.name.split('.')[-1]
             validate_file_extension_size(self.image, extension=extension,
                                          supported_extension=['png', 'jpg', 'jpeg'],
                                          max_size_mb=12)

@@ -49,7 +49,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if self.image:
-            extension = self.image.path.split('.')[-1]
+            extension = self.image.name.split('.')[-1]
             validate_file_extension_size(self.image, extension=extension,
                                          supported_extension=['png', 'jpg', 'jpeg'],
                                          max_size_mb=15)
