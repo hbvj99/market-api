@@ -26,7 +26,8 @@ INTERNAL_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-    'django_filters'
+    'django_filters',
+    'cuser'
 ]
 
 INSTALLED_APPS = CORE_APPS + THIRD_PARTY_APPS + INTERNAL_APPS
@@ -39,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cuser.middleware.CuserMiddleware'
 ]
 
 ROOT_URLCONF = 'config.urls'
