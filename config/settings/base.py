@@ -21,7 +21,8 @@ INTERNAL_APPS = [
     'market.commons',
     'market.authentications',
     'market.users',
-    'market.products'
+    'market.products',
+    'market.notifications'
 ]
 
 THIRD_PARTY_APPS = [

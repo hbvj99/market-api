@@ -11,7 +11,7 @@ class ListRetrieveUpdateViewSetMixin(
     pass
 
 
-class ListRetrieveSetMixin(
+class ListRetrieveViewSetMixin(
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     GenericViewSet

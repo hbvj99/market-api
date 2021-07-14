@@ -10,9 +10,9 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from market.commons.viewsets import ListRetrieveViewSetMixin
 from ..serializers import RegisterUserSerializer, UserSerializer, ResetPasswordSerializer
 from ....permissions import IsAdminPermission, IsUserOwnerPermission
-from .....commons.viewsets import ListRetrieveSetMixin
 
 User = get_user_model()
 
@@ -23,7 +23,7 @@ class Register(CreateAPIView):
     http_method_names = ['post']
 
 
-class UserViewSet(ListRetrieveSetMixin):
+class UserViewSet(ListRetrieveViewSetMixin):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminPermission]
