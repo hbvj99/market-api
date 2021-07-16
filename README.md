@@ -55,6 +55,8 @@ If you want to test the API, import all endpoints in [Postman](https://www.postm
 
 ## Realtime Notification
 
+![Screenshot from 2021-07-16 15-38-49](https://user-images.githubusercontent.com/43197293/125931912-e18b6cc4-8121-4ff6-a29a-b52d2bb91d76.png)
+
 Websockets is used for async requests such as real time notifications with the help of [Django Channels](https://github.com/django/channels) and HTTP2.0.
 
 > Note: SSL is required for deployment since HTTP2.0 only runs in TLS as of now.
