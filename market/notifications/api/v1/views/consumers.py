@@ -1,5 +1,4 @@
 import json
-from urllib.parse import parse_qs
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
@@ -8,12 +7,12 @@ from channels.generic.websocket import WebsocketConsumer
 class NotificationConsumer(WebsocketConsumer):
 
     def connect(self):
-        query_params = parse_qs(self.scope["query_string"].decode())
-        user = query_params.get('user')
+        if self.scope["user"].is_anonymous:
+            self.close()
 
         self.room_group_name = f'notification_group'
-        if user:
-            self.room_name = f'notification_room_{user[0]}'
+        if self.scope["user"]:
+            self.room_name = f'notification_room_{self.scope["user"].id}'
         else:
             self.room_name = 'notification_room'
 
@@ -28,6 +27,10 @@ class NotificationConsumer(WebsocketConsumer):
         pass
 
     def disconnect(self, close_code):
+        async_to_sync(self.channel_layer.group_discard)(
+            self.room_group_name,
+            self.channel_name
+        )
         self.close()
 
     def send_notification(self, event):
