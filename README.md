@@ -51,3 +51,10 @@ Run the commands below in a order to create migrations.
 Its build on Django REST framework 3. API docs is generated with Swagger and ```drf-yasg```.
 
 If you want to test the API, import all endpoints in [Postman](https://www.postman.com/) using this [link](https://www.getpostman.com/collections/5aa2e91d985dd9ffa6bd).
+
+
+## Realtime Notification
+
+Websockets is used for async requests such as real time notifications with the help of [Django Channels](https://github.com/django/channels) and HTTP2.0.
+
+> Note: SSL is required for deployment since HTTP2.0 only runs in TLS as of now.
