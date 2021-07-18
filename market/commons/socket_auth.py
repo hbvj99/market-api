@@ -1,8 +1,10 @@
-from urllib.parse import parse_qs
-
+import jwt
 from channels.db import database_sync_to_async
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
+from jwt import ExpiredSignatureError
+
+from config.settings import SECRET_KEY
 
 User = get_user_model()
 
@@ -15,9 +17,9 @@ def get_user(user_id):
         return AnonymousUser()
 
 
-class CustomSocketAuthMiddleware:
+class CustomJWTAuthMiddleware:
     """
-    Custom middleware (insecure) that takes user IDs from the query string.
+    Custom JWT verify middleware
     """
 
     def __init__(self, app):
@@ -25,15 +27,19 @@ class CustomSocketAuthMiddleware:
         self.app = app
 
     async def __call__(self, scope, receive, send):
-        # Look up user from query string (you should also do things like
-        # checking if it is a valid user ID, or if scope["user"] is already
-        # populated).
-
-        query_params = parse_qs(scope["query_string"].decode())
-
-        if query_params.get('user') is None:
+        decoded_header = [[word.decode() for word in sets] for sets in scope.get('headers')]
+        if any('sec-websocket-protocol' in sublist for sublist in decoded_header) is False:
             return AnonymousUser()
-
-        scope['user'] = await get_user(int(query_params['user'][0]))
-
+        try:
+            token = dict(decoded_header).get('sec-websocket-protocol')
+            token_name = token.split(',')[0]
+            token_key = token.split()[-1]
+            if token_name == 'Token':
+                jwt_decode = jwt.decode(token_key, SECRET_KEY, algorithms=['HS256'])
+                user_id = jwt_decode['user_id']
+                scope['user'] = await get_user(user_id)
+            else:
+                return AnonymousUser()
+        except ExpiredSignatureError:
+            scope['user'] = AnonymousUser()
         return await self.app(scope, receive, send)

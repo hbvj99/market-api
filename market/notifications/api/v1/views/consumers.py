@@ -20,7 +20,7 @@ class NotificationConsumer(WebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
-        self.accept()
+        self.accept('Token')  # Accept only protocol mentioned in header `Sec-WebSocket-Protocol`
         self.send(text_data=json.dumps({'status': f'connected to {self.room_group_name}'}))
 
     def receive(self, text_data):
