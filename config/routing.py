@@ -1,5 +1,6 @@
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.security.websocket import AllowedHostsOriginValidator
+from django.core.asgi import get_asgi_application
 from django.urls import path
 
 from market.commons.socket_auth import CustomJWTAuthMiddleware
@@ -10,6 +11,7 @@ ws_path = [
 ]
 
 application = ProtocolTypeRouter({
+    "http": get_asgi_application(),
     'websocket': AllowedHostsOriginValidator(  # Allow socket connections only from Allowed hosts
         CustomJWTAuthMiddleware(
             URLRouter(ws_path)
